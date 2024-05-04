@@ -2,12 +2,13 @@
 #define USERPOLYGONSLAYER_HPP
 
 #include "RenderLayer.hpp"
-#include <SFML/Graphics/ConvexShape.hpp>
+#include "Line.hpp"
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <vector>
 
 class UserPolygonsLayer : public RenderLayer
 {
-    std::vector<sf::ConvexShape> m_polygons;
+    std::vector<std::vector<sfLine>> m_polygons;
     std::mutex m_mutex;
 public:
     void draw(sf::RenderTarget& render_targer) override;
