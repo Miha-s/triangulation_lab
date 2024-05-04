@@ -5,7 +5,9 @@ void UserPolygonsLayer::draw(sf::RenderTarget &render_targer)
 {
     lock_guard lock(m_mutex);
     for(auto& polygon : m_polygons) {
-        render_targer.draw(polygon.data(), polygon.size(), sf::LinesStrip);
+        for(auto& line : polygon) {
+            render_targer.draw(line);
+        }
     }
 }
 
@@ -17,12 +19,10 @@ void UserPolygonsLayer::clear()
 
 void UserPolygonsLayer::add_polygon(std::vector<sf::Vector2f> points)
 {
-    std::vector<sf::Vertex> polygon;
-    points.push_back(points.front());
+    std::vector<sfLine> polygon;
 
-    for(auto& point : points) {
-        polygon.push_back({point});
-        polygon.back().color = sf::Color::Black;
+    for(int i = 0; i < points.size(); i++) {
+        polygon.push_back({points[i], points[(i+1)%points.size()]});
     }
 
     lock_guard lock(m_mutex);
