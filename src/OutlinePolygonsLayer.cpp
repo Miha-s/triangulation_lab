@@ -1,7 +1,7 @@
-#include "UserPolygonsLayer.hpp"
+#include "OutlinePolygonsLayer.hpp"
 
 
-void UserPolygonsLayer::draw(sf::RenderTarget &render_targer)
+void OutlinePolygonsLayer::draw_polygons(sf::RenderTarget &render_targer)
 {
     lock_guard lock(m_mutex);
     for(auto& polygon : m_polygons) {
@@ -11,18 +11,20 @@ void UserPolygonsLayer::draw(sf::RenderTarget &render_targer)
     }
 }
 
-void UserPolygonsLayer::clear()
+void OutlinePolygonsLayer::clear()
 {
     lock_guard lock(m_mutex);
     m_polygons.clear();
 }
 
-void UserPolygonsLayer::add_polygon(std::vector<sf::Vector2f> points)
+void OutlinePolygonsLayer::add_polygon(std::vector<sf::Vector2f> points)
 {
     std::vector<sfLine> polygon;
 
     for(int i = 0; i < points.size(); i++) {
-        polygon.push_back({points[i], points[(i+1)%points.size()]});
+        auto a = points[i];
+        auto b = points[(i+1)%points.size()];
+        polygon.push_back({a, b, sf::Color::Green, 2});
     }
 
     lock_guard lock(m_mutex);

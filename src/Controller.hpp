@@ -3,7 +3,7 @@
 
 #include "ShapeAdditionLayer.hpp"
 #include "ZoomController.hpp"
-#include "UserPolygonsLayer.hpp"
+#include "OutlinePolygonsLayer.hpp"
 #include "PolygonBuilderController.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
@@ -14,7 +14,7 @@ class Controller
     static constexpr int window_x = 1000;
     static constexpr int window_y = 600;
     std::shared_ptr<ShapeAdditionLayer> m_polygon_addition;
-    std::shared_ptr<UserPolygonsLayer> m_user_polygons;
+    std::shared_ptr<OutlinePolygonsLayer> m_user_polygons;
     PolygonBuilderController m_polygon_builder;
 
     sf::RenderWindow& m_window;

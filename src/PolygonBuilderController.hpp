@@ -2,22 +2,22 @@
 #define POLYGONBUILDERCONTROLLER_HPP
 
 #include "ShapeAdditionLayer.hpp"
-#include "UserPolygonsLayer.hpp"
+#include "OutlinePolygonsLayer.hpp"
 
-struct Result
-{
 
-};
 
 class PolygonBuilderController
 {
+public:
+    using Result = std::vector<std::vector<sf::Vector2f>>;
+private:
     ShapeAdditionLayerPtr m_polygon_addition_l;
-    UserPolygonsLayerPtr m_user_polygons_l;
+    PolygonsLayerPtr m_user_polygons_l;
 
-    std::vector<std::vector<sf::Vector2f>> m_user_polygons;
+    Result m_user_polygons;
     std::vector<sf::Vector2f> m_current_points;
 public:
-    void set_polygon_layer(UserPolygonsLayerPtr user_polygons_l);
+    void set_polygon_layer(PolygonsLayerPtr user_polygons_l);
     void set_polygon_addition_layer(ShapeAdditionLayerPtr polygon_addition_l);
 
     void add_point(sf::Vector2f point);

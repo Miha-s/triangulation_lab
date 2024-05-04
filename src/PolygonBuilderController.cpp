@@ -2,7 +2,7 @@
 
 static constexpr int MAX_POINT_COUNT = 4;
 
-void PolygonBuilderController::set_polygon_layer(UserPolygonsLayerPtr user_polygons_l)
+void PolygonBuilderController::set_polygon_layer(PolygonsLayerPtr user_polygons_l)
 {
     m_user_polygons_l = user_polygons_l;
 }
@@ -27,7 +27,7 @@ void PolygonBuilderController::add_point(sf::Vector2f point)
     m_polygon_addition_l->clear();
 }
 
-Result PolygonBuilderController::get_result()
+PolygonBuilderController::Result PolygonBuilderController::get_result()
 {
-    return Result{};
+    return m_user_polygons;
 }

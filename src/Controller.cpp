@@ -4,7 +4,7 @@
 Controller::Controller(sf::RenderWindow &window) : m_window{window}
 {
     m_polygon_addition = std::make_shared<ShapeAdditionLayer>();
-    m_user_polygons = std::make_shared<UserPolygonsLayer>();
+    m_user_polygons = std::make_shared<OutlinePolygonsLayer>();
 
     m_polygon_builder.set_polygon_addition_layer(m_polygon_addition);
     m_polygon_builder.set_polygon_layer(m_user_polygons);
@@ -48,10 +48,10 @@ void Controller::process_event(sf::Event event)
 
 std::shared_ptr<RenderLayer> Controller::shape_addition_layer()
 {
-    return std::static_pointer_cast<RenderLayer>(m_polygon_addition);
+    return m_polygon_addition;
 }
 
 std::shared_ptr<RenderLayer> Controller::user_polygons_layer()
 {
-    return std::static_pointer_cast<RenderLayer>(m_user_polygons);
+    return m_user_polygons;
 }
