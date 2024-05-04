@@ -29,5 +29,8 @@ void PolygonBuilderController::add_point(sf::Vector2f point)
 
 PolygonBuilderController::Result PolygonBuilderController::get_result()
 {
-    return m_user_polygons;
+    auto user_polygons = std::move(m_user_polygons);
+    m_polygon_addition_l->clear();
+    m_current_points.clear();
+    return user_polygons;
 }

@@ -15,6 +15,7 @@ int main()
     Renderer renderer;
     renderer.add_layer(controller.shape_addition_layer());
     renderer.add_layer(controller.user_polygons_layer());
+    renderer.add_layer(controller.triangulated_polygons_layer());
 
     std::thread render_thread{[&window, &renderer](){
             renderer.render(window);

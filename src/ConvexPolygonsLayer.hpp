@@ -2,13 +2,12 @@
 #define CONVEXPOLYGONSLAYER_HPP
 
 #include "PolygonsLayer.hpp"
-#include "Line.hpp"
-#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/ConvexShape.hpp>
 #include <vector>
 
 class ConvexPolygonsLayer : public PolygonsLayer
 {
-    std::vector<std::vector<sfLine>> m_polygons;
+    std::vector<sf::ConvexShape> m_polygons;
     std::mutex m_mutex;
 public:
     void draw_polygons(sf::RenderTarget& render_targer) override;

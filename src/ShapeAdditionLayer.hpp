@@ -13,7 +13,7 @@ class ShapeAdditionLayer : public RenderLayer
     std::mutex m_mutex;
 public:
     void draw(sf::RenderTarget& render_target) override;
-    void clear();
+    void clear() override;
     void add_point(sf::Vector2f point);
 
     ~ShapeAdditionLayer(){}

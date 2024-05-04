@@ -1,4 +1,5 @@
 #include "Controller.hpp"
+#include "ConvexPolygonsLayer.hpp"
 #include <iostream>
 
 Controller::Controller(sf::RenderWindow &window) : m_window{window}
@@ -8,6 +9,10 @@ Controller::Controller(sf::RenderWindow &window) : m_window{window}
 
     m_polygon_builder.set_polygon_addition_layer(m_polygon_addition);
     m_polygon_builder.set_polygon_layer(m_user_polygons);
+
+    m_triangulated_polygons = std::make_shared<ConvexPolygonsLayer>();
+    m_triangulated_polygons->set_next(std::make_shared<OutlinePolygonsLayer>());
+    m_triangulation_controller.set_polygons_layer(m_triangulated_polygons);
 
     m_window.create(sf::VideoMode(window_x, window_y), "My window");
     sf::View main_view(sf::FloatRect(0.f, 0.f, window_x, window_y));
@@ -43,6 +48,11 @@ void Controller::process_event(sf::Event event)
         view.zoom(m_zoom.zoom());
         m_window.setView(view);
     }
+    if(event.type == sf::Event::KeyPressed) {
+        if(event.key.code == sf::Keyboard::Enter) {
+            m_triangulation_controller.triangulate(m_polygon_builder.get_result());
+        }
+    }
 
 }
 
@@ -54,4 +64,9 @@ std::shared_ptr<RenderLayer> Controller::shape_addition_layer()
 std::shared_ptr<RenderLayer> Controller::user_polygons_layer()
 {
     return m_user_polygons;
+}
+
+RenderLayerPtr Controller::triangulated_polygons_layer()
+{
+    return m_triangulated_polygons;
 }
