@@ -1,4 +1,4 @@
-#include "Controller.hpp"
+#include <Controllers/Controller.hpp>
 #include "Renderer.hpp"
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <thread>
@@ -16,6 +16,7 @@ int main()
     renderer.add_layer(controller.shape_addition_layer());
     renderer.add_layer(controller.user_polygons_layer());
     renderer.add_layer(controller.triangulated_polygons_layer());
+    renderer.add_layer(controller.control_layer());
 
     std::thread render_thread{[&window, &renderer](){
             renderer.render(window);

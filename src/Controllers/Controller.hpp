@@ -1,7 +1,8 @@
 #ifndef CONTROLLER_HPP
 #define CONTROLLER_HPP
 
-#include "ShapeAdditionLayer.hpp"
+#include <Layers/ShapeAdditionLayer.hpp>
+#include <Layers/ControllLayer.hpp>
 #include "ZoomController.hpp"
 #include "PolygonBuilderController.hpp"
 #include "TriangulationController.hpp"
@@ -16,6 +17,7 @@ class Controller
     ShapeAdditionLayerPtr m_polygon_addition;
     PolygonsLayerPtr m_user_polygons;
     PolygonsLayerPtr m_triangulated_polygons;
+    ControllLayerPtr m_control_layer;
 
     PolygonBuilderController m_polygon_builder;
     TriangulationController m_triangulation_controller;
@@ -26,12 +28,12 @@ public:
     Controller(sf::RenderWindow& window);
 
     void process_event(sf::Event event);
+    void on_triangulazi_pressed();
 
     RenderLayerPtr shape_addition_layer();
     RenderLayerPtr user_polygons_layer();
     RenderLayerPtr triangulated_polygons_layer();
-
-
+    RenderLayerPtr control_layer();
 };
 
 

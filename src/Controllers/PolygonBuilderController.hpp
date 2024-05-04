@@ -1,10 +1,8 @@
 #ifndef POLYGONBUILDERCONTROLLER_HPP
 #define POLYGONBUILDERCONTROLLER_HPP
 
-#include "ShapeAdditionLayer.hpp"
-#include "OutlinePolygonsLayer.hpp"
-
-
+#include <Layers/ShapeAdditionLayer.hpp>
+#include <Layers/OutlinePolygonsLayer.hpp>
 
 class PolygonBuilderController
 {

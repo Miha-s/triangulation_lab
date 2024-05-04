@@ -1,7 +1,7 @@
 #ifndef RENDERER_HPP
 #define RENDERER_HPP
 
-#include "RenderLayer.hpp"
+#include <Layers/RenderLayer.hpp>
 #include <vector>
 #include <SFML/Graphics/RenderWindow.hpp>
 

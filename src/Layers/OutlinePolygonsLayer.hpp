@@ -2,7 +2,7 @@
 #define OUTLINEPOLYGONSLAYER_HPP
 
 #include "PolygonsLayer.hpp"
-#include "Line.hpp"
+#include <Elements/Line.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <vector>
 

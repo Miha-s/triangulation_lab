@@ -1,7 +1,7 @@
 #ifndef TRIANGULATIONCONTROLLER_HPP
 #define TRIANGULATIONCONTROLLER_HPP
 
-#include "PolygonsLayer.hpp"
+#include <Layers/PolygonsLayer.hpp>
 #include <vector>
 #include <memory>
 

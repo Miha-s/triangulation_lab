@@ -2,7 +2,6 @@
 #define SHAPEADDITIONLAYER_HPP
 
 #include "RenderLayer.hpp"
-#include "OutlinePolygonsLayer.hpp"
 #include <SFML/Graphics/CircleShape.hpp>
 #include <vector>
 #include <mutex>
