@@ -1,0 +1,25 @@
+https://www.sfml-dev.org/tutorials/2.6/
+
+required packages for sfml
+
+    freetype
+    x11
+    xrandr
+    udev
+    opengl
+    flac
+    ogg
+    vorbis
+    vorbisenc
+    vorbisfile
+    openal
+    pthread
+
+/usr/lib/x86_64-linux-gnu/cmake/SFML
+there in file SFMLConfig.cmake is all required information for SFML as part of cmake project
+
+find_package
+https://cmake.org/cmake/help/latest/guide/using-dependencies/index.html#guide:Using%20Dependencies%20Guide
+
+View
+https://www.sfml-dev.org/tutorials/2.6/graphics-view.php
