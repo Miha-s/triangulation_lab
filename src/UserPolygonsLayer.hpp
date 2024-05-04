@@ -7,7 +7,7 @@
 
 class UserPolygonsLayer : public RenderLayer
 {
-    std::vector<sf::ConvexShape> m_polygons;
+    std::vector<std::vector<sf::Vertex>> m_polygons;
     std::mutex m_mutex;
 public:
     void draw(sf::RenderTarget& render_targer) override;

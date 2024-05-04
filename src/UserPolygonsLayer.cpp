@@ -5,7 +5,7 @@ void UserPolygonsLayer::draw(sf::RenderTarget &render_targer)
 {
     lock_guard lock(m_mutex);
     for(auto& polygon : m_polygons) {
-        render_targer.draw(polygon);
+        render_targer.draw(polygon.data(), polygon.size(), sf::LinesStrip);
     }
 }
 
@@ -17,14 +17,14 @@ void UserPolygonsLayer::clear()
 
 void UserPolygonsLayer::add_polygon(std::vector<sf::Vector2f> points)
 {
-    sf::ConvexShape convex;
-    convex.setPointCount(points.size());
-    convex.setFillColor(sf::Color::Black);
+    std::vector<sf::Vertex> polygon;
+    points.push_back(points.front());
 
-    for(int i = 0; i < points.size(); i++) {
-        convex.setPoint(i, points[i]);
+    for(auto& point : points) {
+        polygon.push_back({point});
+        polygon.back().color = sf::Color::Black;
     }
 
     lock_guard lock(m_mutex);
-    m_polygons.push_back(convex);
+    m_polygons.push_back(polygon);
 }
