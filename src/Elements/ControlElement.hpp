@@ -5,13 +5,12 @@
 #include <SFML/Window/Event.hpp>
 #include <memory>
 
-
 class ControlElement : public sf::Drawable
 {
 public:
-    virtual bool consume_event(sf::Event event, sf::Window& window) = 0;
+    virtual bool consume_event( sf::Event event, sf::Window& window ) = 0;
 };
 
-using ControlElementPtr = std::shared_ptr<ControlElement>;
+using ControlElementPtr = std::shared_ptr< ControlElement >;
 
-#endif // CONTROLELEMENT_HPP
+#endif  // CONTROLELEMENT_HPP

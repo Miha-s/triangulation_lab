@@ -6,12 +6,12 @@
 class ZoomController
 {
     float m_zoom = 1;
-public:
-    void increaseZoom();
-    void decreaseZoom();
 
-    float zoom();
+public:
+    void increaseZoom( );
+    void decreaseZoom( );
+
+    float zoom( );
 };
 
-
-#endif // ZOOMCONTROLLER_HPP
+#endif  // ZOOMCONTROLLER_HPP

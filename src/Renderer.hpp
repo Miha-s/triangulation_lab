@@ -2,18 +2,17 @@
 #define RENDERER_HPP
 
 #include <Layers/RenderLayer.hpp>
-#include <vector>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <vector>
 
 class Renderer
 {
-    std::vector<RenderLayerPtr> m_layers;
+    std::vector< RenderLayerPtr > m_layers;
+
 public:
+    void render( sf::RenderWindow& window );
 
-    void render(sf::RenderWindow& window);
-
-    void add_layer(RenderLayerPtr layer);
-
+    void add_layer( RenderLayerPtr layer );
 };
 
-#endif // RENDERER_HPP
+#endif  // RENDERER_HPP

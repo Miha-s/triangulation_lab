@@ -2,16 +2,16 @@
 #define TRIANGULATIONCONTROLLER_HPP
 
 #include <Layers/PolygonsLayer.hpp>
-#include <vector>
 #include <memory>
-
+#include <vector>
 
 class TriangulationController
 {
-    std::shared_ptr<PolygonsLayer> m_polygons_layer;
+    std::shared_ptr< PolygonsLayer > m_polygons_layer;
+
 public:
-    void set_polygons_layer(std::shared_ptr<PolygonsLayer> polygons_layer);
-    void triangulate(std::vector<std::vector<sf::Vector2f>> polygons);
+    void set_polygons_layer( std::shared_ptr< PolygonsLayer > polygons_layer );
+    void triangulate( std::vector< std::vector< sf::Vector2f > > polygons );
 };
 
-#endif // TRIANGULATIONCONTROLLER_HPP
+#endif  // TRIANGULATIONCONTROLLER_HPP
