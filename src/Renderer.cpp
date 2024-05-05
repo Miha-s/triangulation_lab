@@ -3,22 +3,15 @@
 void
 Renderer::render( sf::RenderWindow& window )
 {
-    window.setActive( true );
+    window.clear( sf::Color::White );
 
-    while ( window.isOpen( ) )
+    for ( auto& layer : m_layers )
     {
-        window.clear( sf::Color::White );
-
-        for ( auto& layer : m_layers )
-        {
-            layer->draw( window );
-        }
-
-        // end the current frame
-        window.display( );
+        layer->draw( window );
     }
 
-    window.setActive( false );
+    // end the current frame
+    window.display( );
 }
 
 void

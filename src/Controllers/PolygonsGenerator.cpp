@@ -63,7 +63,7 @@ PolygonsGenerator::generate_polygons_from_circles( std::vector< Circle > circles
         auto circle = circles[ i ];
         std::vector< float > angles;
 
-        for ( int j = 0; j < m_number_of_edges; )
+        for ( int j = 0, num_tries = 0; j < m_number_of_edges; )
         {
             auto angle = m_random_angle.get_number( );
             auto point = circle.point_on_circle( angle );
@@ -75,10 +75,15 @@ PolygonsGenerator::generate_polygons_from_circles( std::vector< Circle > circles
                                                < m_min_point_distance;
                                     } );
 
-            if ( it == angles.end( ) )
+            if ( it == angles.end( ) || num_tries >= 5 )
             {
                 j++;
+                num_tries = 0;
                 angles.push_back( angle );
+            }
+            else
+            {
+                num_tries++;
             }
         }
 

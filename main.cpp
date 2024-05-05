@@ -15,15 +15,11 @@ main( )
 
     Controller controller( window );
 
-    window.setActive( false );
-
     Renderer renderer;
     renderer.add_layer( controller.shape_addition_layer( ) );
     renderer.add_layer( controller.user_polygons_layer( ) );
     renderer.add_layer( controller.triangulated_polygons_layer( ) );
     renderer.add_layer( controller.control_layer( ) );
-
-    std::thread render_thread{ [ &window, &renderer ]( ) {  renderer.render( window ); } };
 
     // run the program as long as the window is open
     while ( window.isOpen( ) )
@@ -35,8 +31,8 @@ main( )
             controller.process_event( event );
         }
 
+        renderer.render( window );
     }
 
-    render_thread.join( );
     return 0;
 }
