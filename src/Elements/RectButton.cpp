@@ -4,6 +4,7 @@
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <iostream>
+
 RectButton::RectButton( std::string text,
                         sf::Vector2f position,
                         sf::Vector2f size,
@@ -16,7 +17,10 @@ RectButton::RectButton( std::string text,
     m_rectangle.setOutlineColor( sf::Color{ 95, 101, 110 } );
     m_rectangle.setOutlineThickness( 2 );
 
-    m_font.loadFromFile( "../../FreeSans.ttf" );
+    auto success = m_font.loadFromFile( "../../FreeSans.ttf" );
+    if(!success) {
+        std::cout << "Fail load font" << std::endl;
+    }
     m_text.setFont( m_font );  // font is a sf::Font
 
     m_text.setString( text );
@@ -41,7 +45,7 @@ RectButton::consume_event( sf::Event event, sf::Window& window )
         {
             sf::Vector2f pixelPos{ static_cast< float >( event.mouseButton.x ),
                                    static_cast< float >( event.mouseButton.y ) };
-            if ( m_rectangle.getLocalBounds( ).contains( pixelPos ) )
+            if ( m_rectangle.getGlobalBounds( ).contains( pixelPos ) )
             {
                 m_callback( );
                 return true;

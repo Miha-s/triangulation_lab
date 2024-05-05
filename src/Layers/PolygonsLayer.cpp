@@ -10,6 +10,14 @@ PolygonsLayer::draw( sf::RenderTarget& render_target )
 }
 
 void
+PolygonsLayer::clear( )
+{
+    clear_polygons( );
+    if ( m_next_polygon_layer )
+        m_next_polygon_layer->clear( );
+}
+
+void
 PolygonsLayer::set_next( PolygonsLayerPtr layer )
 {
     m_next_polygon_layer = layer;

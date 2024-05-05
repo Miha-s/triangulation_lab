@@ -8,7 +8,10 @@ int
 main( )
 {
     // create the window
-    sf::RenderWindow window( sf::VideoMode( 800, 600 ), "My window" );
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 16;
+
+    sf::RenderWindow window( sf::VideoMode( 800, 600 ), "My window", sf::Style::Default, settings );
 
     Controller controller( window );
 

@@ -14,7 +14,7 @@ OutlinePolygonsLayer::draw_polygons( sf::RenderTarget& render_targer )
 }
 
 void
-OutlinePolygonsLayer::clear( )
+OutlinePolygonsLayer::clear_polygons( )
 {
     lock_guard lock( m_mutex );
     m_polygons.clear( );

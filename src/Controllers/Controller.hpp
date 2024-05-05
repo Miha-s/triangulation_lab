@@ -6,6 +6,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Window/Event.hpp>
 
+#include "PolygonsGenerator.hpp"
 #include "PolygonBuilderController.hpp"
 #include "TriangulationController.hpp"
 #include "ZoomController.hpp"
@@ -14,13 +15,14 @@ class Controller
 {
     static constexpr int window_x = 1000;
     static constexpr int window_y = 600;
-    ShapeAdditionLayerPtr m_polygon_addition;
-    PolygonsLayerPtr m_user_polygons;
+    ShapeAdditionLayerPtr m_polygon_addition_l;
+    PolygonsLayerPtr m_user_polygons_l;
     PolygonsLayerPtr m_triangulated_polygons;
     ControllLayerPtr m_control_layer;
 
     PolygonBuilderController m_polygon_builder;
     TriangulationController m_triangulation_controller;
+    PolygonsGenerator m_polygons_generator;
 
     sf::RenderWindow& m_window;
     ZoomController m_zoom;
@@ -30,6 +32,10 @@ public:
 
     void process_event( sf::Event event );
     void on_triangulazi_pressed( );
+    void on_clear_pressed( );
+    void on_generate_pressed( );
+    void on_number_of_edges_changed( int n );
+    void on_number_of_polygons_changed( int n );
 
     RenderLayerPtr shape_addition_layer( );
     RenderLayerPtr user_polygons_layer( );

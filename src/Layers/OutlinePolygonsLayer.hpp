@@ -14,7 +14,7 @@ class OutlinePolygonsLayer : public PolygonsLayer
 
 public:
     void draw_polygons( sf::RenderTarget& render_targer ) override;
-    void clear( ) override;
+    void clear_polygons( ) override;
     void add_polygon( std::vector< sf::Vector2f > points ) override;
 };
 

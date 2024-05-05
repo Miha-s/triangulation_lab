@@ -15,3 +15,9 @@ TriangulationController::triangulate( std::vector< std::vector< sf::Vector2f > >
         m_polygons_layer->add_polygon( polygon );
     }
 }
+
+void
+TriangulationController::clear( )
+{
+    m_polygons_layer->clear( );
+}

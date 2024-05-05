@@ -11,7 +11,7 @@ ConvexPolygonsLayer::draw_polygons( sf::RenderTarget& render_targer )
 }
 
 void
-ConvexPolygonsLayer::clear( )
+ConvexPolygonsLayer::clear_polygons( )
 {
     lock_guard lock( m_mutex );
     m_polygons.clear( );
