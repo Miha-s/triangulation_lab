@@ -9,6 +9,17 @@ static constexpr float ZOOM_STEP = 0.05;
 static constexpr int INITIAL_EDGES = 3;
 static constexpr int INITIAL_POLYGONS = 3;
 
+
+sf::FloatRect getViewBounds(const sf::View &view)
+{
+    sf::FloatRect rt;
+    rt.left = view.getCenter().x - view.getSize().x/2.f;
+    rt.top  = view.getCenter().y - view.getSize().y/2.f;
+    rt.width  = view.getSize().x;
+    rt.height = view.getSize().y;
+    return rt;
+}
+
 Controller::Controller( sf::RenderWindow& window )
     : m_window{ window }
 {
@@ -19,7 +30,8 @@ Controller::Controller( sf::RenderWindow& window )
     m_polygon_builder.set_polygon_layer( m_user_polygons_l );
     m_polygon_builder.set_number_of_edges( INITIAL_EDGES );
 
-    m_polygons_generator.set_number_of_polygons( INITIAL_POLYGONS );
+    m_number_of_edges = INITIAL_EDGES;
+    m_number_of_polygons = INITIAL_POLYGONS;
 
     m_triangulated_polygons = std::make_shared< ConvexPolygonsLayer >( );
     m_triangulated_polygons->set_next( std::make_shared< OutlinePolygonsLayer >( ) );
@@ -80,6 +92,8 @@ Controller::process_event( sf::Event event )
         {
             sf::Vector2i pixelPos{ event.mouseButton.x, event.mouseButton.y };
             sf::Vector2f worldPos = m_window.mapPixelToCoords( pixelPos );
+            std::cout << pixelPos.x << " " << pixelPos.y << std::endl;
+            std::cout << worldPos.x << " " << worldPos.y << std::endl;
             m_polygon_builder.add_point( worldPos );
         }
         return;
@@ -125,7 +139,9 @@ void
 Controller::on_generate_pressed( )
 {
     on_clear_pressed( );
-    auto polygons = m_polygons_generator.generate( );
+    auto rect = getViewBounds( m_window.getView( ) );
+
+    auto polygons = m_polygons_generator.generate( rect, m_number_of_polygons, m_number_of_edges );
 
     for ( auto& polygon : polygons )
     {
@@ -137,6 +153,7 @@ void
 Controller::on_number_of_edges_changed( int n )
 {
     on_clear_pressed( );
+    m_number_of_edges = n;
     m_polygon_builder.set_number_of_edges( n );
 }
 
@@ -144,7 +161,7 @@ void
 Controller::on_number_of_polygons_changed( int n )
 {
     on_clear_pressed( );
-    m_polygons_generator.set_number_of_polygons( n );
+    m_number_of_polygons = n;
 }
 
 std::shared_ptr< RenderLayer >

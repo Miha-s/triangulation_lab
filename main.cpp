@@ -23,7 +23,7 @@ main( )
     renderer.add_layer( controller.triangulated_polygons_layer( ) );
     renderer.add_layer( controller.control_layer( ) );
 
-    std::thread render_thread{ [ &window, &renderer ]( ) { renderer.render( window ); } };
+    std::thread render_thread{ [ &window, &renderer ]( ) {  renderer.render( window ); } };
 
     // run the program as long as the window is open
     while ( window.isOpen( ) )
@@ -34,6 +34,7 @@ main( )
         {
             controller.process_event( event );
         }
+
     }
 
     render_thread.join( );

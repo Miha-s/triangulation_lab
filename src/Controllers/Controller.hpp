@@ -25,7 +25,8 @@ class Controller
     PolygonsGenerator m_polygons_generator;
 
     sf::RenderWindow& m_window;
-    ZoomController m_zoom;
+    int m_number_of_edges;
+    int m_number_of_polygons;
 
 public:
     Controller( sf::RenderWindow& window );
