@@ -1,6 +1,16 @@
 #include "PolygonsLayer.hpp"
 
 void
+PolygonsLayer::add( std::vector< sf::Vector2f > points )
+{
+    add_polygon( points );
+    if ( m_next_polygon_layer )
+    {
+        m_next_polygon_layer->add( points );
+    }
+}
+
+void
 PolygonsLayer::draw( sf::RenderTarget& render_target )
 {
     draw_polygons( render_target );

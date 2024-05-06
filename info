@@ -26,3 +26,25 @@ https://www.sfml-dev.org/tutorials/2.6/graphics-view.php
 
 Generating random convex shapes
 https://github.com/the-mikedavis/randompolygons
+
+triangulation of a simple polygon with holes
+
+Trinagulation polygons
+https://dccg.upc.edu/wp-content/uploads/2020/10/6-DAG-GeoC-Triangulating-polygons.pdf
+https://www.cs.cmu.edu/afs/cs/academic/class/15456-s14/Handouts/BKOS.pdf
+
+Convex Hull in O(n)
+https://stackoverflow.com/questions/46049573/joining-two-convex-nonintersecting-polygons-into-one
+
+Convex Hull used here
+https://cp-algorithms.com/geometry/convex-hull.html
+
+Corner case with two lines from one point
+polygons = { { { 847, -300 }, { 788, -253 }, { 853, -217 } },
+             { { 274, -640 }, { 236, -582 }, { 279, -546} },
+             { { 505, -303 }, { 487, -294 }, { 470, -223 } } };
+
+Corner case with vertex of polygon on outer convex hull
+polygons = { { { 865, -585 }, { 770, -600 }, { 839, -540 } },
+             { { 71, -205 }, { 24, -140 }, { 70, -174 } },
+             { { 233, -40 }, { 204, -63 }, { 207, 22 } } };

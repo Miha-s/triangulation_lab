@@ -39,7 +39,7 @@ PolygonBuilderController::add_point( sf::Vector2f point )
     }
 
     m_user_polygons.push_back( m_current_points );
-    m_user_polygons_l->add_polygon( m_current_points );
+    m_user_polygons_l->add( m_current_points );
     m_current_points.clear( );
     m_polygon_addition_l->clear( );
 }
@@ -48,7 +48,7 @@ void
 PolygonBuilderController::add_polygon( std::vector< sf::Vector2f > polygon )
 {
     m_user_polygons.push_back( polygon );
-    m_user_polygons_l->add_polygon( polygon );
+    m_user_polygons_l->add( polygon );
     m_current_points.clear( );
     m_polygon_addition_l->clear( );
 }

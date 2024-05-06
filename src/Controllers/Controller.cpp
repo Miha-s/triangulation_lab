@@ -9,14 +9,14 @@ static constexpr float ZOOM_STEP = 0.05;
 static constexpr int INITIAL_EDGES = 3;
 static constexpr int INITIAL_POLYGONS = 3;
 
-
-sf::FloatRect getViewBounds(const sf::View &view)
+sf::FloatRect
+getViewBounds( const sf::View& view )
 {
     sf::FloatRect rt;
-    rt.left = view.getCenter().x - view.getSize().x/2.f;
-    rt.top  = view.getCenter().y - view.getSize().y/2.f;
-    rt.width  = view.getSize().x;
-    rt.height = view.getSize().y;
+    rt.left = view.getCenter( ).x - view.getSize( ).x / 2.f;
+    rt.top = view.getCenter( ).y - view.getSize( ).y / 2.f;
+    rt.width = view.getSize( ).x;
+    rt.height = view.getSize( ).y;
     return rt;
 }
 
@@ -24,7 +24,7 @@ Controller::Controller( sf::RenderWindow& window )
     : m_window{ window }
 {
     m_polygon_addition_l = std::make_shared< ShapeAdditionLayer >( );
-    m_user_polygons_l = std::make_shared< OutlinePolygonsLayer >( );
+    m_user_polygons_l = std::make_shared< OutlinePolygonsLayer >(sf::Color::Green );
 
     m_polygon_builder.set_polygon_addition_layer( m_polygon_addition_l );
     m_polygon_builder.set_polygon_layer( m_user_polygons_l );
@@ -33,8 +33,8 @@ Controller::Controller( sf::RenderWindow& window )
     m_number_of_edges = INITIAL_EDGES;
     m_number_of_polygons = INITIAL_POLYGONS;
 
-    m_triangulated_polygons = std::make_shared< ConvexPolygonsLayer >( );
-    m_triangulated_polygons->set_next( std::make_shared< OutlinePolygonsLayer >( ) );
+    m_triangulated_polygons = std::make_shared< OutlinePolygonsLayer >( sf::Color::Black );
+    //    m_triangulated_polygons->set_next( std::make_shared< OutlinePolygonsLayer >( ) );
     m_triangulation_controller.set_polygons_layer( m_triangulated_polygons );
 
     m_control_layer = std::make_shared< ControllLayer >( );

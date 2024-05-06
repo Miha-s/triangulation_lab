@@ -18,7 +18,7 @@ ConvexPolygonsLayer::clear_polygons( )
 }
 
 void
-ConvexPolygonsLayer::add_polygon( std::vector< sf::Vector2f > points )
+ConvexPolygonsLayer::add_polygon( const std::vector< sf::Vector2f >& points )
 {
     sf::ConvexShape convex;
     convex.setPointCount( points.size( ) );

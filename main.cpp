@@ -12,7 +12,7 @@ main( )
     settings.antialiasingLevel = 16;
 
     sf::RenderWindow window( sf::VideoMode( 800, 600 ), "My window", sf::Style::Default, settings );
-
+    window.setFramerateLimit(60);
     Controller controller( window );
 
     Renderer renderer;
