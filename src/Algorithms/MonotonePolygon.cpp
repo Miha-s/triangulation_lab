@@ -112,9 +112,9 @@ calculate_monotone_polygon( HalfEdgeList& edges_list )
             {
                 auto ej = binary_tree.get_left_edge( id );
                 auto there_back  = edges_list.insert_diagonal( id, binary_tree.get_helper( ej ).id );
-                binary_tree.set_helper( ej, id );
-                binary_tree.insert_edge( id );
-                binary_tree.set_helper( id, id );
+                binary_tree.set_helper( ej, there_back.first );
+                binary_tree.insert_edge( there_back.second );
+                binary_tree.set_helper( there_back.second, there_back.second );
             }
             else if ( type == Merge )
             {
