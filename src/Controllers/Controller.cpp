@@ -34,10 +34,12 @@ Controller::Controller( sf::RenderWindow& window )
     m_number_of_edges = INITIAL_EDGES;
     m_number_of_polygons = INITIAL_POLYGONS;
 
-    m_triangulated_polygons = std::make_shared< ConvexPolygonsLayer >( sf::Color::Red );
-    m_triangulated_polygons->set_next( std::make_shared< OutlinePolygonsLayer >(
+    m_triangulated_whole_polygons = std::make_shared< ConvexPolygonsLayer >( sf::Color::Red );
+    m_triangulated_outline_polygons = ( std::make_shared< OutlinePolygonsLayer >(
             std::vector< sf::Color >{ sf::Color::Yellow } ) );
-    m_triangulation_controller.set_polygons_layer( m_triangulated_polygons );
+
+    m_triangulation_controller.set_outline_polygons_layer( m_triangulated_outline_polygons );
+    m_triangulation_controller.set_whole_polygons_layer( m_triangulated_whole_polygons );
 
     m_control_layer = std::make_shared< ControllLayer >( );
     auto triangulize_button =
@@ -155,7 +157,6 @@ Controller::process_event( sf::Event event )
         {
             m_triangulation_controller.show_next( );
             std::cout << "Right pressed" << std::endl;
-
         }
         if ( event.key.code == sf::Keyboard::Left )
         {
@@ -219,9 +220,15 @@ Controller::user_polygons_layer( )
 }
 
 RenderLayerPtr
-Controller::triangulated_polygons_layer( )
+Controller::triangulated_whole_polygons_layer( )
 {
-    return m_triangulated_polygons;
+    return m_triangulated_whole_polygons;
+}
+
+RenderLayerPtr
+Controller::triangulated_outline_polygons_layer( )
+{
+    return m_triangulated_outline_polygons;
 }
 
 RenderLayerPtr

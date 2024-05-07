@@ -28,9 +28,16 @@ TriangulationController::active_polygons( )
 }
 
 void
-TriangulationController::set_polygons_layer( std::shared_ptr< PolygonsLayer > polygons_layer )
+TriangulationController::set_outline_polygons_layer(
+        std::shared_ptr< PolygonsLayer > polygons_layer )
 {
-    m_polygons_layer = polygons_layer;
+    m_outline_polygons_layer = polygons_layer;
+}
+
+void
+TriangulationController::set_whole_polygons_layer( std::shared_ptr< PolygonsLayer > polygons_layer )
+{
+    m_whole_polygons_layer = polygons_layer;
 }
 
 void
@@ -50,7 +57,7 @@ TriangulationController::triangulate( std::vector< std::vector< sf::Vector2f > >
 {
     if ( polygons.empty( ) )
     {
-        m_polygons_layer->clear( );
+        clear( );
         return;
     }
 
@@ -67,7 +74,8 @@ TriangulationController::triangulate( std::vector< std::vector< sf::Vector2f > >
         points.insert( points.begin( ), polygon.begin( ), polygon.end( ) );
     }
     auto convex_polygon = convex_hull( points );
-    if(polygons.size() == 1) {
+    if ( polygons.size( ) == 1 )
+    {
         convex_polygon = polygons[ 0 ];
     }
     auto convex_hull_list = HalfEdgeList::build_from( convex_polygon );
@@ -150,19 +158,37 @@ TriangulationController::show_polygons( )
     }
     m_index %= active_polygons( ).size( );
 
-    m_polygons_layer->clear( );
+    clear( );
     std::vector< std::vector< sf::Vector2f > > polygons =
             active_polygons( )[ m_index ].get_polygons( );
-
     convert_polygons_to_different_coordinate_system( polygons );
+
+    if ( active_mode == Monotone )
+    {
+        auto triag_polygons = m_monotone_trinagulated_polygons[ m_index ].get_polygons( );
+        convert_polygons_to_different_coordinate_system( triag_polygons );
+
+        for ( auto& polygon : triag_polygons )
+        {
+            m_whole_polygons_layer->add( polygon );
+        }
+        for ( auto& polygon : polygons )
+        {
+            m_outline_polygons_layer->add( polygon );
+        }
+        return;
+    }
+
     for ( auto& polygon : polygons )
     {
-        m_polygons_layer->add( polygon );
+        m_whole_polygons_layer->add( polygon );
+        m_outline_polygons_layer->add( polygon );
     }
 }
 
 void
 TriangulationController::clear( )
 {
-    m_polygons_layer->clear( );
+    m_whole_polygons_layer->clear( );
+    m_outline_polygons_layer->clear( );
 }

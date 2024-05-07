@@ -239,9 +239,16 @@ triangulate_monotone_polygon( HalfEdgeList& edges_list )
             edges_stack.push_back( edge );
         }
     }
+
+    auto edge = edges_list.get_record( sorted_vertices.back( ) );
+    auto left_side = edges_list.get_next( edge ) == edges_stack.back( );
+
     for ( int i = 1; i < edges_stack.size( ) - 1; i++ )
     {
-        edges_list.insert_diagonal( edges_list.get_record( sorted_vertices.back( ) ),
-                                    edges_stack[ i ] );
+        auto there_back = edges_list.insert_diagonal( edge, edges_stack[ i ] );
+        if ( !left_side )
+        {
+            edge = there_back.first;
+        }
     }
 }

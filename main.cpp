@@ -18,7 +18,9 @@ main( )
     Renderer renderer;
     renderer.add_layer( controller.shape_addition_layer( ) );
     renderer.add_layer( controller.user_polygons_layer( ) );
-    renderer.add_layer( controller.triangulated_polygons_layer( ) );
+    renderer.add_layer( controller.triangulated_whole_polygons_layer( ) );
+    renderer.add_layer( controller.triangulated_outline_polygons_layer( ) );
+
     renderer.add_layer( controller.control_layer( ) );
 
     // run the program as long as the window is open
