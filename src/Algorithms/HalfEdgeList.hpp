@@ -51,6 +51,7 @@ public:
 
     std::vector< HalfEdgeRecord > get_records( const sf::Vector2f& origin ) const;
     std::vector< HalfEdgeList > get_separate_polygons( ) const;
+    void add_polygon( const HalfEdgeList& polygon );
     HalfEdgeRecord get_record( const sf::Vector2f& origin ) const;
 
     void set_next( HalfEdgeRecord id, HalfEdgeRecord next );

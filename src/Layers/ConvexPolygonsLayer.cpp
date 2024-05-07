@@ -1,5 +1,10 @@
 #include "ConvexPolygonsLayer.hpp"
 
+ConvexPolygonsLayer::ConvexPolygonsLayer( sf::Color color )
+    : m_color{ color }
+{
+}
+
 void
 ConvexPolygonsLayer::draw_polygons( sf::RenderTarget& render_targer )
 {
@@ -22,7 +27,7 @@ ConvexPolygonsLayer::add_polygon( const std::vector< sf::Vector2f >& points )
 {
     sf::ConvexShape convex;
     convex.setPointCount( points.size( ) );
-    convex.setFillColor( sf::Color::Black );
+    convex.setFillColor( m_color );
 
     for ( int i = 0; i < points.size( ); i++ )
     {

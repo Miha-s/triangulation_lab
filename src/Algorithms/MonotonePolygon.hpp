@@ -5,4 +5,6 @@
 
 void calculate_monotone_polygon( HalfEdgeList& edges_list );
 
+void triangulate_monotone_polygon( HalfEdgeList& edges_list );
+
 #endif // MONOTONEPOLYGON_HPP

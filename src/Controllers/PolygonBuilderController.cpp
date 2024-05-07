@@ -16,6 +16,8 @@ void
 PolygonBuilderController::set_number_of_edges( int n )
 {
     m_number_of_edges = n;
+    m_current_points.clear( );
+    m_polygon_addition_l->clear( );
 }
 
 void

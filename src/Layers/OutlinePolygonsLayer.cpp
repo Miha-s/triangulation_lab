@@ -1,8 +1,8 @@
 #include "OutlinePolygonsLayer.hpp"
 
-OutlinePolygonsLayer::OutlinePolygonsLayer(sf::Color color) : m_color(color)
+OutlinePolygonsLayer::OutlinePolygonsLayer( std::vector< sf::Color > colors )
+    : m_colors( colors )
 {
-
 }
 
 void
@@ -29,12 +29,12 @@ void
 OutlinePolygonsLayer::add_polygon( const std::vector< sf::Vector2f >& points )
 {
     std::vector< sfLine > polygon;
-
+    auto color = current_color++ % m_colors.size( );
     for ( int i = 0; i < points.size( ); i++ )
     {
         auto a = points[ i ];
         auto b = points[ ( i + 1 ) % points.size( ) ];
-        polygon.push_back( { a, b, m_color, 2 } );
+        polygon.push_back( { a, b, m_colors[ color ], 2 } );
     }
 
     lock_guard lock( m_mutex );

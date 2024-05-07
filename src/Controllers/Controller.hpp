@@ -28,6 +28,9 @@ class Controller
     int m_number_of_edges;
     int m_number_of_polygons;
 
+    bool m_moving_map = false;
+    sf::Vector2i m_previous_mouse_position;
+
 public:
     Controller( sf::RenderWindow& window );
 

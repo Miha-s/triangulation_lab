@@ -10,6 +10,9 @@ class ConvexPolygonsLayer : public PolygonsLayer
 {
     std::vector< sf::ConvexShape > m_polygons;
     std::mutex m_mutex;
+    sf::Color m_color;
+public:
+    ConvexPolygonsLayer( sf::Color color );
 
 protected:
     void draw_polygons( sf::RenderTarget& render_targer ) override;

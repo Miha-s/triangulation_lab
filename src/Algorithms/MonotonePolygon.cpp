@@ -28,16 +28,25 @@ get_angle_in_clockwise( sf::Vector2f a, sf::Vector2f b, sf::Vector2f c )
     return angle;
 }
 
+float
+get_interior_angle( const HalfEdgeList& edges_list, HalfEdgeRecord id )
+{
+    auto prev = edges_list.get_origin( edges_list.get_prev( id ) );
+    auto curr = edges_list.get_origin( id );
+    auto next = edges_list.get_origin( edges_list.get_next( id ) );
+
+    auto angle = get_angle_in_clockwise( prev, curr, next );
+    return angle;
+}
+
 VertexType
 get_vertex_type( const HalfEdgeList& edges_list, HalfEdgeRecord id )
 {
     auto prev = edges_list.get_origin( edges_list.get_prev( id ) );
     auto curr = edges_list.get_origin( id );
     auto next = edges_list.get_origin( edges_list.get_next( id ) );
-    auto p1 = sf::Vector2f{ curr - prev };
-    auto p2 = sf::Vector2f{ next - curr };
 
-    auto angle = get_angle_in_clockwise( prev, curr, next );
+    auto angle = get_interior_angle(edges_list, id);
 
     if ( curr > prev && curr > next )
     {
@@ -111,13 +120,14 @@ calculate_monotone_polygon( HalfEdgeList& edges_list )
             else if ( type == Split )
             {
                 auto ej = binary_tree.get_left_edge( id );
-                auto there_back  = edges_list.insert_diagonal( id, binary_tree.get_helper( ej ).id );
+                auto there_back = edges_list.insert_diagonal( id, binary_tree.get_helper( ej ).id );
                 binary_tree.set_helper( ej, there_back.first );
-                binary_tree.insert_edge( there_back.second );
-                binary_tree.set_helper( there_back.second, there_back.second );
+                binary_tree.insert_edge( id );
+                binary_tree.set_helper( id, id );
             }
             else if ( type == Merge )
             {
+                auto helper = id;
                 if ( binary_tree.is_merge_helper( prev_id ) )
                 {
                     edges_list.insert_diagonal( id, binary_tree.get_helper( prev_id ).id );
@@ -126,9 +136,11 @@ calculate_monotone_polygon( HalfEdgeList& edges_list )
                 auto ej = binary_tree.get_left_edge( id );
                 if ( binary_tree.is_merge_helper( ej ) )
                 {
-                    edges_list.insert_diagonal( id, binary_tree.get_helper( ej ).id );
+                    auto there_back =
+                            edges_list.insert_diagonal( id, binary_tree.get_helper( ej ).id );
+                    helper = there_back.first;
                 }
-                binary_tree.set_helper( ej, { EdgesBinaryTree::Helper::Merge, id } );
+                binary_tree.set_helper( ej, { EdgesBinaryTree::Helper::Merge, helper } );
             }
             else
             {
@@ -147,11 +159,89 @@ calculate_monotone_polygon( HalfEdgeList& edges_list )
                     auto ej = binary_tree.get_left_edge( id );
                     if ( binary_tree.is_merge_helper( ej ) )
                     {
-                        edges_list.insert_diagonal( id, binary_tree.get_helper( ej ).id );
+                        auto there_back =
+                                edges_list.insert_diagonal( id, binary_tree.get_helper( ej ).id );
+                        id = there_back.first;
                     }
                     binary_tree.set_helper( ej, id );
                 }
             }
         }
+    }
+}
+
+void
+triangulate_monotone_polygon( HalfEdgeList& edges_list )
+{
+    std::vector< HalfEdgeRecord > edges_stack;
+    auto sorted_vertices = edges_list.get_sorted_vertices( );
+    edges_stack.push_back( edges_list.get_record(sorted_vertices[0]) );
+    edges_stack.push_back( edges_list.get_record(sorted_vertices[1]));
+
+    for ( int j = 2; j < sorted_vertices.size()-1; j++ )
+    {
+        auto vertex = sorted_vertices[ j ];
+        auto edge = edges_list.get_record( vertex );
+        auto prev = edges_stack.back( );
+
+        auto left_side = edges_list.get_origin( edges_list.get_prev( edge ) ).y > vertex.y;
+
+        if ( edges_list.get_prev( edge ) != edges_stack.back( )
+             && edges_list.get_next( edge ) != edges_stack.back( ) )
+        {
+            for ( int i = 1; i < edges_stack.size( ); ++i )
+            {
+                auto stack_edge = edges_stack[ i ];
+                auto there_back = edges_list.insert_diagonal( edge, stack_edge );
+                if ( left_side )
+                {
+                    edges_stack[ i ] = there_back.second;
+                }
+                else
+                {
+                    edge = there_back.first;
+                }
+            }
+            auto stack_edge = edges_stack.back( );
+            edges_stack.clear( );
+            edges_stack.push_back( stack_edge );
+            edges_stack.push_back( edge );
+        }
+        else
+        {
+            auto get_next = [ left_side, &edges_list ]( HalfEdgeRecord r )
+            {
+                if ( left_side )
+                {
+                    return edges_list.get_prev( r );
+                }
+                else
+                {
+                    return edges_list.get_next( r );
+                }
+            };
+
+            while ( get_interior_angle( edges_list, get_next( edge ) ) < M_PI
+                    && edges_stack.size( ) > 1 )
+            {
+                auto there_back = edges_list.insert_diagonal( edge, get_next( get_next( edge ) ) );
+                if ( !left_side )
+                {
+                    edge = there_back.first;
+                }
+                edges_stack.pop_back( );
+                if ( left_side )
+                {
+                    edges_stack.pop_back( );
+                    edges_stack.push_back( there_back.second );
+                }
+            }
+            edges_stack.push_back( edge );
+        }
+    }
+    for ( int i = 1; i < edges_stack.size( ) - 1; i++ )
+    {
+        edges_list.insert_diagonal( edges_list.get_record( sorted_vertices.back( ) ),
+                                    edges_stack[ i ] );
     }
 }

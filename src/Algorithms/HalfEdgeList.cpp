@@ -247,6 +247,29 @@ HalfEdgeList::get_separate_polygons( ) const
     return res;
 }
 
+void
+HalfEdgeList::add_polygon( const HalfEdgeList& polygons )
+{
+    for ( const auto& polygon : polygons.get_separate_polygons( ) )
+    {
+        HalfEdgeRecord prev = INVALID_ID;
+
+        auto first_edge = polygon.records.begin( )->id;
+        auto edge = first_edge;
+        auto first = add_record( polygon.get_origin( edge ), prev );
+        prev = first;
+        edge = polygon.get_next( first_edge );
+
+        while ( edge != first_edge )
+        {
+            prev = add_record( polygon.get_origin( edge ), prev );
+            edge = polygon.get_next( edge );
+        }
+
+        set_next( prev, first );
+    }
+}
+
 HalfEdgeRecord
 HalfEdgeList::get_record( const sf::Vector2f& origin ) const
 {
@@ -285,8 +308,8 @@ HalfEdgeList::set_prev( HalfEdgeRecord id, HalfEdgeRecord prev )
 void
 HalfEdgeList::remove_record( HalfEdgeRecord id )
 {
-    get_record( get_prev( id ) ).next = INVALID_ID;
-    get_record( get_next( id ) ).prev = INVALID_ID;
+    get_record( get_prev( id ) ).next = get_next( id );
+    get_record( get_next( id ) ).prev = get_prev( id );
 
     auto it = std::find( vertices.begin( ), vertices.end( ), get_origin( id ) );
     if(it == vertices.end()) {

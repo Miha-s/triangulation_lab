@@ -10,10 +10,12 @@
 class OutlinePolygonsLayer : public PolygonsLayer
 {
     std::vector< std::vector< sfLine > > m_polygons;
-    sf::Color m_color;
+    std::vector< sf::Color > m_colors;
+    int current_color = 0;
     std::mutex m_mutex;
 public:
-    OutlinePolygonsLayer( sf::Color color );
+    OutlinePolygonsLayer( std::vector< sf::Color > colors );
+
 protected:
     void draw_polygons( sf::RenderTarget& render_targer ) override;
     void clear_polygons( ) override;
