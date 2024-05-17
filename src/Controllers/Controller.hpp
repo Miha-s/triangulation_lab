@@ -17,7 +17,9 @@ class Controller
     static constexpr int window_y = 600;
     ShapeAdditionLayerPtr m_polygon_addition_l;
     PolygonsLayerPtr m_user_polygons_l;
-    PolygonsLayerPtr m_triangulated_polygons;
+    PolygonsLayerPtr m_triangulated_whole_polygons;
+    PolygonsLayerPtr m_triangulated_outline_polygons;
+
     ControllLayerPtr m_control_layer;
 
     PolygonBuilderController m_polygon_builder;
@@ -27,6 +29,9 @@ class Controller
     sf::RenderWindow& m_window;
     int m_number_of_edges;
     int m_number_of_polygons;
+
+    bool m_moving_map = false;
+    sf::Vector2i m_previous_mouse_position;
 
 public:
     Controller( sf::RenderWindow& window );
@@ -40,7 +45,9 @@ public:
 
     RenderLayerPtr shape_addition_layer( );
     RenderLayerPtr user_polygons_layer( );
-    RenderLayerPtr triangulated_polygons_layer( );
+    RenderLayerPtr triangulated_whole_polygons_layer( );
+    RenderLayerPtr triangulated_outline_polygons_layer( );
+
     RenderLayerPtr control_layer( );
 };
 

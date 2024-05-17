@@ -3,7 +3,7 @@
 void
 Renderer::render( sf::RenderWindow& window )
 {
-    window.clear( sf::Color::White );
+    window.clear( sf::Color{ 110, 108, 105 } );
 
     for ( auto& layer : m_layers )
     {

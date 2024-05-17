@@ -24,7 +24,8 @@ Controller::Controller( sf::RenderWindow& window )
     : m_window{ window }
 {
     m_polygon_addition_l = std::make_shared< ShapeAdditionLayer >( );
-    m_user_polygons_l = std::make_shared< OutlinePolygonsLayer >(sf::Color::Green );
+    m_user_polygons_l = std::make_shared< OutlinePolygonsLayer >(
+            std::vector< sf::Color >{ sf::Color{ 74, 222, 33 } } );
 
     m_polygon_builder.set_polygon_addition_layer( m_polygon_addition_l );
     m_polygon_builder.set_polygon_layer( m_user_polygons_l );
@@ -33,13 +34,16 @@ Controller::Controller( sf::RenderWindow& window )
     m_number_of_edges = INITIAL_EDGES;
     m_number_of_polygons = INITIAL_POLYGONS;
 
-    m_triangulated_polygons = std::make_shared< OutlinePolygonsLayer >( sf::Color::Black );
-    //    m_triangulated_polygons->set_next( std::make_shared< OutlinePolygonsLayer >( ) );
-    m_triangulation_controller.set_polygons_layer( m_triangulated_polygons );
+    m_triangulated_whole_polygons = std::make_shared< ConvexPolygonsLayer >( sf::Color::Red );
+    m_triangulated_outline_polygons = ( std::make_shared< OutlinePolygonsLayer >(
+            std::vector< sf::Color >{ sf::Color::Yellow } ) );
+
+    m_triangulation_controller.set_outline_polygons_layer( m_triangulated_outline_polygons );
+    m_triangulation_controller.set_whole_polygons_layer( m_triangulated_whole_polygons );
 
     m_control_layer = std::make_shared< ControllLayer >( );
     auto triangulize_button =
-            std::make_shared< RectButton >( "Triangulize",
+            std::make_shared< RectButton >( "Triangulate",
                                             sf::Vector2f{ 5, 5 },
                                             sf::Vector2f{ 110, 30 },
                                             [ this ]( ) { on_triangulazi_pressed( ); } );
@@ -88,6 +92,11 @@ Controller::process_event( sf::Event event )
     }
     if ( event.type == sf::Event::MouseButtonPressed )
     {
+        if ( event.mouseButton.button == sf::Mouse::Right )
+        {
+            m_moving_map = true;
+            m_previous_mouse_position = sf::Mouse::getPosition( m_window );
+        }
         if ( event.mouseButton.button == sf::Mouse::Left )
         {
             sf::Vector2i pixelPos{ event.mouseButton.x, event.mouseButton.y };
@@ -96,6 +105,30 @@ Controller::process_event( sf::Event event )
             std::cout << worldPos.x << " " << worldPos.y << std::endl;
             m_polygon_builder.add_point( worldPos );
         }
+        return;
+    }
+    if ( event.type == sf::Event::MouseButtonReleased )
+    {
+        if ( event.mouseButton.button == sf::Mouse::Right )
+        {
+            m_moving_map = false;
+        }
+        return;
+    }
+    if ( event.type == sf::Event::MouseMoved )
+    {
+        if ( !m_moving_map )
+        {
+            return;
+        }
+        sf::View view = m_window.getView( );
+        auto mouse_position = sf::Mouse::getPosition( m_window );
+        sf::Vector2f worldPos = m_window.mapPixelToCoords( mouse_position );
+        auto delta = worldPos - m_window.mapPixelToCoords( m_previous_mouse_position );
+        m_previous_mouse_position = mouse_position;
+        view.move( -delta );
+        m_window.setView( view );
+
         return;
     }
     if ( event.type == sf::Event::Resized )
@@ -117,7 +150,18 @@ Controller::process_event( sf::Event event )
     {
         if ( event.key.code == sf::Keyboard::Enter )
         {
+            m_triangulation_controller.switch_mode( );
             std::cout << "Enter pressed" << std::endl;
+        }
+        if ( event.key.code == sf::Keyboard::Right )
+        {
+            m_triangulation_controller.show_next( );
+            std::cout << "Right pressed" << std::endl;
+        }
+        if ( event.key.code == sf::Keyboard::Left )
+        {
+            m_triangulation_controller.show_prev( );
+            std::cout << "Left pressed" << std::endl;
         }
     }
 }
@@ -152,7 +196,6 @@ Controller::on_generate_pressed( )
 void
 Controller::on_number_of_edges_changed( int n )
 {
-    on_clear_pressed( );
     m_number_of_edges = n;
     m_polygon_builder.set_number_of_edges( n );
 }
@@ -177,9 +220,15 @@ Controller::user_polygons_layer( )
 }
 
 RenderLayerPtr
-Controller::triangulated_polygons_layer( )
+Controller::triangulated_whole_polygons_layer( )
 {
-    return m_triangulated_polygons;
+    return m_triangulated_whole_polygons;
+}
+
+RenderLayerPtr
+Controller::triangulated_outline_polygons_layer( )
+{
+    return m_triangulated_outline_polygons;
 }
 
 RenderLayerPtr

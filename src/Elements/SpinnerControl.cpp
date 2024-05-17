@@ -35,7 +35,7 @@ SpinnerControl::SpinnerControl( std::string text,
 
     m_increase_button = std::make_shared< RectButton >(
             "+",
-            position + sf::Vector2f{ 2 * SIZE_X + text_width + 3 * PADDING, 0.f },
+            position + sf::Vector2f{ 2 * SIZE_X + text_width + 6 * PADDING, 0.f },
             sf::Vector2f{ SIZE_X, SIZE_Y },
             [ this ]( ) { on_increase_pressed( ); } );
 }
@@ -65,7 +65,18 @@ SpinnerControl::width( )
 void
 SpinnerControl::on_decrease_pressed( )
 {
-    m_counter--;
+    if ( m_counter <= 10 )
+    {
+        m_counter--;
+    }
+    else if ( m_counter <= 100 )
+    {
+        m_counter -= 10;
+    }
+    else
+    {
+        m_counter -= 100;
+    }
     m_counter_text.setString( std::to_string( m_counter ) );
     m_callback( m_counter );
 }
@@ -73,7 +84,18 @@ SpinnerControl::on_decrease_pressed( )
 void
 SpinnerControl::on_increase_pressed( )
 {
-    m_counter++;
+    if ( m_counter >= 100 )
+    {
+        m_counter += 100;
+    }
+    else if ( m_counter >= 10 )
+    {
+        m_counter += 10;
+    }
+    else
+    {
+        m_counter++;
+    }
     m_counter_text.setString( std::to_string( m_counter ) );
     m_callback( m_counter );
 }
