@@ -33,6 +33,15 @@ Trinagulation polygons
 https://dccg.upc.edu/wp-content/uploads/2020/10/6-DAG-GeoC-Triangulating-polygons.pdf
 https://www.cs.cmu.edu/afs/cs/academic/class/15456-s14/Handouts/BKOS.pdf
 
+Subdivision in monotone polygons
+https://dl.acm.org/doi/pdf/10.1145/800113.803653
+
+Subdivision in start polygons
+https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=4cb7800dc4e2f024010145471b43faecae0c3aa5
+
+Subdivision in simple polygons
+https://www.cs.kent.edu/~dragan/CG/CG-Book.pdf
+
 Convex Hull in O(n)
 https://stackoverflow.com/questions/46049573/joining-two-convex-nonintersecting-polygons-into-one
 

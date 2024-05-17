@@ -43,7 +43,7 @@ Controller::Controller( sf::RenderWindow& window )
 
     m_control_layer = std::make_shared< ControllLayer >( );
     auto triangulize_button =
-            std::make_shared< RectButton >( "Triangulize",
+            std::make_shared< RectButton >( "Triangulate",
                                             sf::Vector2f{ 5, 5 },
                                             sf::Vector2f{ 110, 30 },
                                             [ this ]( ) { on_triangulazi_pressed( ); } );
