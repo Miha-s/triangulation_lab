@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <SFML/Window/Event.hpp>
+#include <SFML/Window.hpp>
 #include <memory>
 
 class ControlElement : public sf::Drawable
